@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import UserService from "../Services/UserService"
 
 const Registreer = () => {
   const [formData, setFormData] = useState({
+    company: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -17,16 +19,31 @@ const Registreer = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform form validation and submission logic here
     console.log(formData);
+    const response = await UserService.register(formData)
+    const data = await response.json();
+
+    console.log(data)
   };
 
   return (
     <div className="p-4 mx-auto max-w-md text-black">
       <h1 className="text-xl font-bold mb-4 text-center">Registreren</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+              <label className="block mb-1">Bedrijf:</label>
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+              />
+        </div>
         <div>
           <label className="block mb-1">Voornaam:</label>
           <input

@@ -43,5 +43,57 @@ usersRouter.get('/', async (req, res) => {
 
 });
 
+
+/** 
+ * @swagger
+ * /users/register:
+ *   post:
+ *    summary: Register a user for name test
+ *    description: sets up test for user
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              company:
+ *                type: string
+ *              firstName:
+ *                type: string
+ *              lastName:
+ *                type: string
+ *              email:
+ *                type: string
+ *                format: email
+ *              password:
+ *                type: string
+ *                format: password
+ *              confirmPassword:
+ *                type: string
+ *                format: password
+ *            required:
+ *              - company
+ *              - firstName
+ *              - lastName
+ *              - email
+ *              - password
+ *              - confirmPassword
+ *    responses:
+ *      '200':
+ *        description: User registered successfully
+ *      '400':
+ *        description: Invalid input or passwords do not match
+ */
+
+
+usersRouter.post('/register', async (req, res) => {
+    // Perform user registration logic here
+    const data = req.body
+    console.log(data)
+
+    res.status(200).json({ message: 'User registered successfully' });
+})
+
 // Mock data (replace with actual database queries)
 module.exports = usersRouter;

@@ -2,11 +2,14 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const swaggerSetup = require('./swagger');
 const usersRouter = require('./routes/users');
 
 const app = express();
+app.use(cors({ origin: 'http://localhost:8080' }));
+
 
 const options = {
     definition: {
