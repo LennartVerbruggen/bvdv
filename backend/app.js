@@ -7,9 +7,9 @@ const router = express.Router();
 const swaggerSetup = require('./swagger');
 const usersRouter = require('./routes/users');
 
-const app = express();
-app.use(cors({ origin: 'http://localhost:8080' }));
+var bodyParser = require('body-parser')
 
+const app = express();
 
 const options = {
     definition: {
@@ -28,9 +28,12 @@ const options = {
     apis: ['./routes/*.js'], // Path to your API routes
   };
   
-  const specs = swaggerJsdoc(options);
+const specs = swaggerJsdoc(options);
 
-// Initialize Swagger
+app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(bodyParser.json())
+
+// Initialize Swagger 
 swaggerSetup(app);
 
 // Use the users router
