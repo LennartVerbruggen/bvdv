@@ -21,7 +21,7 @@ const options = {
       },
       servers: [
         {
-          url: 'http://localhost:3001', // The base URL of your API
+          url: 'http://localhost:3000', // The base URL of your API
         },
       ],
     },
@@ -50,8 +50,8 @@ module.exports = (app) => {
   };
 
 // Start the Express server
-const port = 3001;
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  console.log(`Visit http://localhost:3001/api-docs to access the swagger ui`)
+  console.log(`Visit http://localhost:3000/api-docs to access the swagger ui`)
 });

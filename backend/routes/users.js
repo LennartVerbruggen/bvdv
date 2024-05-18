@@ -2,7 +2,7 @@ const express = require('express');
 const usersRouter = express.Router();
 const xlsx = require('xlsx');
 const path = require('path');
-
+const generatePairs = require('../service/get-pairs')
 
 const read_excel_file = async () => {
 
@@ -126,35 +126,82 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.post('/register', async (req, res) => {
     // Perform user registration logic here
     const {company, firstName, lastName} = req.body
-
-    let excel = await read_excel_file();    
-
-    console.log(excel)
-
-    const companyExists = excel.some(entry => entry.Groep === company);
-
-    if (!companyExists) {
-        const newEntry = {
-            Groep: company,
-            Aantal_deelnemers: 100, // Example value for participants
-            Aantal_letterparen_naam: 1000, // Example value for letter pairs in name
-            Aantal_letterparen_dummy: 0,
-            Totaal_letterparen: 1000, // Example total letter pairs
-            Aantal_eigen_letters_verworpen: 300, // Example value for rejected letters
-            Aantal_vreemde_letters_verworpen: 500, // Example value for rejected foreign letters
-            Significantie: 0.05, // Example significance value
-            Actief: true // Example active status
-        }
-
-        excel.push(newEntry);
-
-        const updated_sheet = xlsx.utils.json_to_sheet(excel);
-
-        update_excel(updated_sheet);
+    
+    if (firstName !== undefined && lastName !== undefined) {
+        let name = firstName.concat(" ", lastName)
+        const pairs = generatePairs(name);
+        res.status(200).json(pairs)
+    } else {
+        res.send({
+            status: 400,
+            message: "Could not parse name header"
+        })
     }
-
-    res.status(200).json({ message: 'User registered successfully' });
 })
+
+
+/** 
+ * @swagger
+ * /users/test:
+ *   post:
+ *    summary: User has filled in letters, now the test is done
+ *    description: Calculation of results
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *              letters:
+ *                type: array
+ *            required:
+ *              - name
+ *              - letters
+ *    responses:
+ *      '200':
+ *        description: Test was completed
+ */
+
+
+usersRouter.post('/test', async (req, res) => {
+    const {letters, name} = req.body
+    console.log(letters)
+    console.log(name)
+
+    res.status(200)
+})
+
+
+// let excel = await read_excel_file();    
+
+//     console.log(excel)
+
+
+// const companyExists = excel.some(entry => entry.Groep === company);
+
+//     if (!companyExists) {
+//         const newEntry = {
+//             Groep: company,
+//             Aantal_deelnemers: 1, // Example value for participants
+//             Aantal_letterparen_naam: 0, // Example value for letter pairs in name
+//             Aantal_letterparen_dummy: 0,
+//             Totaal_letterparen: 0, // Example total letter pairs
+//             Aantal_eigen_letters_verworpen: 0, // Example value for rejected letters
+//             Aantal_vreemde_letters_verworpen: 0, // Example value for rejected foreign letters
+//             Significantie: 0.05, // Example significance value
+//             Actief: true // Example active status
+//         }
+
+//         excel.push(newEntry);
+
+//         const updated_sheet = xlsx.utils.json_to_sheet(excel);
+
+//         update_excel(updated_sheet);
+//     }
+
 
 // Mock data (replace with actual database queries)
 module.exports = usersRouter;

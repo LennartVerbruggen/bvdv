@@ -15,7 +15,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3001', // The base URL of your API
+        url: 'http://localhost:3000', // The base URL of your API
       },
     ],
   },
