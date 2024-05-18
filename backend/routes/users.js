@@ -95,6 +95,7 @@ usersRouter.get('/', async (req, res) => {
  * /users/register:
  *   post:
  *    summary: Register a user for name test
+ *    tags: [Users]
  *    description: sets up test for user
  *    requestBody:
  *      required: true
@@ -155,6 +156,7 @@ usersRouter.post('/register', async (req, res) => {
  * /users/test:
  *   post:
  *    summary: User has filled in letters, now the test is done
+ *    tags: [Users]
  *    description: Calculation of results
  *    requestBody:
  *      required: true

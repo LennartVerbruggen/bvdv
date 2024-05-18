@@ -6,6 +6,7 @@ const cors = require('cors');
 const router = express.Router();
 const swaggerSetup = require('./swagger');
 const usersRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 
 var bodyParser = require('body-parser')
 
@@ -38,6 +39,7 @@ swaggerSetup(app);
 
 // Use the users router
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
 
 // Define your routes
 app.get('/', (req, res) => {
