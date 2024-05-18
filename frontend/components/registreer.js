@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 import UserService from "../Services/UserService"
 
 const Registreer = () => {
@@ -7,7 +7,6 @@ const Registreer = () => {
   const initialClickedState = data.map(() => [false, false]);
   const [clicked, setClicked] = useState(initialClickedState);
   const [formData, setFormData] = useState({
-    company: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -18,6 +17,7 @@ const Registreer = () => {
   // Initialize the results array
   const [results, setResults] = useState(Array(10).fill(null));
   const [name, setName] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,28 +54,19 @@ const Registreer = () => {
       setPairs(data)
     }    
 
-    console.log(data)
   };
 
   const sendLetters = async () => {
     const response = await UserService.sendTest(results, name)
-    console.log(response.json())
+    response.json().then((message) => {
+      setMessage(message.message)
+    })
   }
 
   return (
     <div className="p-4 mx-auto max-w-md text-black">
       {!registered ? (
         <><h1 className="text-xl font-bold mb-4 text-center">Registreren</h1><form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-1">Bedrijf:</label>
-            <input
-              type="text"
-              name="company"
-              value={formData.company}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
-          </div>
           <div>
             <label className="block mb-1">Voornaam:</label>
             <input
@@ -136,7 +127,8 @@ const Registreer = () => {
       ) : (
   
         <>
-          <h1 className="text-2xl font-bold text-center pb-4">Selecteer de tofste letters</h1>
+          <h1 className="text-2xl font-bold text-center pb-4">Selecteer de slechte letters</h1>
+          {message === '' ? null : <h2 className='font-bold text-center text-xl pb-4 text-green-600'>{message}</h2>}
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">
               {pair.map((letter, buttonIndex) => (

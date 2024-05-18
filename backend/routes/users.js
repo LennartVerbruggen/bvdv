@@ -37,6 +37,16 @@ const update_excel = (updated_sheet) => {
 
 }
 
+function removeDuplicates(arr) {
+    var uniq = []
+    arr.forEach(e => {
+        if (!uniq.includes(e)) {
+            uniq.push(e);
+        }
+    })
+    return uniq;
+}
+
 /**
  * @swagger
  * tags:
@@ -157,6 +167,8 @@ usersRouter.post('/register', async (req, res) => {
  *                type: string
  *              letters:
  *                type: array
+ *                items:
+ *                  type: string
  *            required:
  *              - name
  *              - letters
@@ -168,39 +180,49 @@ usersRouter.post('/register', async (req, res) => {
 
 usersRouter.post('/test', async (req, res) => {
     const {letters, name} = req.body
-    console.log(letters)
-    console.log(name)
+    const name_array = name.replace(' ', '').split('')
+    const uniq_name = removeDuplicates(name_array) 
+    
+    // Definieer aantal paren
+    const eigen_naam_paren = uniq_name.length
+    const dummy_paren = 10 - eigen_naam_paren
 
-    res.status(200)
+    let eigen_naam_gekozen = 0
+    let vreemde_gekozen = 0
+
+    letters.forEach(letter => {
+        if (uniq_name.includes(letter)) {
+            eigen_naam_gekozen++
+        } else {
+            vreemde_gekozen++
+        }
+    })
+    let excel = await read_excel_file();    
+
+
+    // Find the row where 'Actief' is TRUE
+    const activeRow = excel.find(row => row.Actief === true);
+
+    // Update de rij als er een actieve rij is, indien niet, stuur melding voor de admin
+    if (activeRow) {
+        activeRow.Aantal_deelnemers++;
+        activeRow.Aantal_letterparen_naam += eigen_naam_paren;
+        activeRow.Aantal_letterparen_dummy += dummy_paren;
+        activeRow.Totaal_letterparen += 10;
+        activeRow.Aantal_eigen_letters_verworpen += eigen_naam_gekozen;
+        activeRow.Aantal_vreemde_letters_verworpen += vreemde_gekozen;
+
+        const updated_sheet = xlsx.utils.json_to_sheet(excel);
+
+        update_excel(updated_sheet);
+
+        res.status(200).json({ message: 'Test completed' });
+    } else {
+
+        res.status(400).json({ message: 'Contact admin to set a company' });
+    
+    }
 })
-
-
-// let excel = await read_excel_file();    
-
-//     console.log(excel)
-
-
-// const companyExists = excel.some(entry => entry.Groep === company);
-
-//     if (!companyExists) {
-//         const newEntry = {
-//             Groep: company,
-//             Aantal_deelnemers: 1, // Example value for participants
-//             Aantal_letterparen_naam: 0, // Example value for letter pairs in name
-//             Aantal_letterparen_dummy: 0,
-//             Totaal_letterparen: 0, // Example total letter pairs
-//             Aantal_eigen_letters_verworpen: 0, // Example value for rejected letters
-//             Aantal_vreemde_letters_verworpen: 0, // Example value for rejected foreign letters
-//             Significantie: 0.05, // Example significance value
-//             Actief: true // Example active status
-//         }
-
-//         excel.push(newEntry);
-
-//         const updated_sheet = xlsx.utils.json_to_sheet(excel);
-
-//         update_excel(updated_sheet);
-//     }
 
 
 // Mock data (replace with actual database queries)
