@@ -18,8 +18,20 @@ const setActive = async (groep) => {
 
 }
 
+const createGroep = async (groep) => {
+    return await fetch(`http://localhost:3000/admin/create/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({groep})
+    })
+
+
+}
+
 const AdminService = {
-    getAllGroups, setActive
+    getAllGroups, setActive, createGroep
 }
 
 export default AdminService

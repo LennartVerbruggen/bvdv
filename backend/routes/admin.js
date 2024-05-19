@@ -142,4 +142,67 @@ adminRouter.post('/active', async (req, res) => {
     }
 })
 
+/** 
+ * @swagger
+ * /admin/create:
+ *   post:
+ *    summary: Admin creates group
+ *    tags: [Admin]
+ *    description: Admin creates a group
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              groep:
+ *                type: string
+ *            required:
+ *              - groep
+ *    responses:
+ *      '200':
+ *        description: Groep is created
+ *      '400':
+ *        description: Groep already exists
+ */
+
+adminRouter.post('/create', async (req, res) => {
+    const groep = req.body.groep
+
+    try {
+        let excel = await read_excel_file();
+
+        // Find the row with the specified groep
+        let groepIndex = excel.findIndex(row => row.Groep === groep);
+
+        if (groepIndex === -1) {
+            // Add a new row for the new groep
+            excel.push({
+                Groep: groep,
+                Aantal_deelnemers: 0,
+                Aantal_letterparen_naam: 0,
+                Aantal_letterparen_dummy: 0,
+                Totaal_letterparen: 0,
+                Aantal_eigen_letters_verworpen: 0,
+                Aantal_vreemde_letters_verworpen: 0,
+                Significantie: 0.05,
+                Actief: false
+            });
+
+            const updated_sheet = xlsx.utils.json_to_sheet(excel)
+
+            // Write the updated data back to the Excel file
+            update_excel(updated_sheet);
+
+            res.status(200).json(`${groep} is aangemaakt`);
+        } else {
+            res.status(400).json(`${groep} bestaat al`);
+        }
+    } catch (error) {
+        console.error('Error creating group:', error);
+        res.status(500).send('Internal server error.');
+    }
+})
+
 module.exports = adminRouter;
