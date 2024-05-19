@@ -78,4 +78,68 @@ adminRouter.get('/groups', async (req, res) => {
 
 });
 
+
+/** 
+ * @swagger
+ * /admin/active:
+ *   post:
+ *    summary: Admin sets active group
+ *    tags: [Admin]
+ *    description: Setting active group
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              groep:
+ *                type: string
+ *            required:
+ *              - groep
+ *    responses:
+ *      '200':
+ *        description: Groep set as active
+ *      '400':
+ *        description: Groep not found
+ */
+
+adminRouter.post('/active', async (req, res) => {
+    const groep = req.body.groep
+
+    console.log(groep)
+
+    try {
+        let excel = await read_excel_file();
+
+        // Find the currently active row
+        let currentActiveIndex = excel.findIndex(row => row.Actief === true);
+
+        // Find the row with the specified groep
+        let groepIndex = excel.findIndex(row => row.Groep === groep);
+
+        if (groepIndex !== -1) {
+            // Set isActive to true for the specified groep
+            excel[groepIndex].Actief = true;
+
+            // Set isActive to false for the previously active groep, if different
+            if (currentActiveIndex !== -1 && currentActiveIndex !== groepIndex) {
+                excel[currentActiveIndex].Actief = false;
+            }
+
+            const updated_sheet = xlsx.utils.json_to_sheet(excel)
+
+            // Write the updated data back to the Excel file
+            update_excel(updated_sheet);
+
+            res.status(200).json(`${groep} is nu actief`);
+        } else {
+            res.status(400).json(`${groep} niet gevonden`);
+        }
+    } catch (error) {
+        console.error('Error updating group activation:', error);
+        res.status(500).send('Internal server error.');
+    }
+})
+
 module.exports = adminRouter;

@@ -205,6 +205,8 @@ usersRouter.post('/test', async (req, res) => {
     // Find the row where 'Actief' is TRUE
     const activeRow = excel.find(row => row.Actief === true);
 
+    const totaalRow = excel.find(row => row.Groep === 'Totaal')
+
     // Update de rij als er een actieve rij is, indien niet, stuur melding voor de admin
     if (activeRow) {
         activeRow.Aantal_deelnemers++;
@@ -213,6 +215,13 @@ usersRouter.post('/test', async (req, res) => {
         activeRow.Totaal_letterparen += 10;
         activeRow.Aantal_eigen_letters_verworpen += eigen_naam_gekozen;
         activeRow.Aantal_vreemde_letters_verworpen += vreemde_gekozen;
+
+        totaalRow.Aantal_deelnemers++;
+        totaalRow.Aantal_letterparen_naam += eigen_naam_paren;
+        totaalRow.Aantal_letterparen_dummy += dummy_paren;
+        totaalRow.Totaal_letterparen += 10;
+        totaalRow.Aantal_eigen_letters_verworpen += eigen_naam_gekozen;
+        totaalRow.Aantal_vreemde_letters_verworpen += vreemde_gekozen;
 
         const updated_sheet = xlsx.utils.json_to_sheet(excel);
 
