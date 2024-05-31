@@ -30,8 +30,20 @@ const createGroep = async (groep) => {
 
 }
 
+const deleteGroep = async (groep) => {
+    return await fetch(`http://localhost:3000/admin/delete/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({groep})
+    })
+
+
+}
+
 const AdminService = {
-    getAllGroups, setActive, createGroep
+    getAllGroups, setActive, createGroep, deleteGroep
 }
 
 export default AdminService

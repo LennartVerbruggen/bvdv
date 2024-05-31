@@ -205,4 +205,59 @@ adminRouter.post('/create', async (req, res) => {
     }
 })
 
+/** 
+ * @swagger
+ * /admin/delete:
+ *   delete:
+ *    summary: Admin deletes group
+ *    tags: [Admin]
+ *    description: Admin deletes a group
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              groep:
+ *                type: string
+ *            required:
+ *              - groep
+ *    responses:
+ *      '200':
+ *        description: Groep is deleted
+ *      '400':
+ *        description: Groep doesn't exists
+ */
+
+adminRouter.delete('/delete', async (req, res) => {
+    const groep = req.body.groep
+
+    try {
+        let excel = await read_excel_file();
+
+        // Find the index of the row where Groep is equal to the provided groep
+        const rowIndex = excel.findIndex(row => row.Groep === groep);
+
+        if (rowIndex === -1) {
+            return res.status(400).json(`${groep} bestaat niet`);
+        }
+
+        // Remove the row from the excel array
+        excel.splice(rowIndex, 1);
+
+        const updated_sheet = xlsx.utils.json_to_sheet(excel)
+
+        // Write the updated data back to the Excel file
+        update_excel(updated_sheet);
+
+        res.status(200).json(`${groep} is verwijdert`);
+        
+    } catch (error) {
+        console.error('Error deleting group:', error);
+        res.status(500).send('Internal server error.');
+    }
+})
+
+
 module.exports = adminRouter;
