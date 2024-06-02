@@ -1,18 +1,26 @@
 import "@/app/globals.css";
-import { use, useEffect, useState } from 'react';
+import { act, use, useEffect, useState } from 'react';
 import AdminService from "../Services/AdminService"
+import { Pie } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
 
 
 const Admin = () => {
     const [groepen, setGroepen] = useState([])
     const [message, setMessage] = useState('')
     const [newGroep, setNewGroep] = useState('');
+    const [selectedGroep, setSelectedGroep] = useState('');
+    const [active, setActive] = useState('')
+    const [statsGroep, setStatsGroep] = useState({})
+    const [totGroep, setTotGroep] = useState({})
 
     const handleGroepClick = async (groep) => {
         console.log(groep)
         const response = await AdminService.setActive(groep)
         const data = await response.json();
-        setMessage(data)
+        setMessage(data);
+
+        getActive();
     };
 
     const handleInputChange = (e) => {
@@ -29,6 +37,36 @@ const Admin = () => {
 
         fetchGroepen();
     };
+
+    const handleSelectChange = (e) => {
+        setSelectedGroep(e.target.value);
+    };
+
+    const handleGenerateStatistics = async () => {
+        const response = await AdminService.generateStatistics(selectedGroep)
+        const data = await response.json();
+        console.log(data)
+
+        setStatsGroep(data.groep)
+        setTotGroep(data.totaal)
+    };
+
+    const pieData = statsGroep ? {
+        labels: ['Aantal eigen letters verworpen', 'Aantal vreemde letters verworpen'],
+        datasets: [{
+            data: [statsGroep.Aantal_eigen_letters_verworpen, statsGroep.Aantal_vreemde_letters_verworpen],
+            backgroundColor: ['#FF6384', '#36A2EB']
+        }]
+    } : null;
+
+    const pieTotData = totGroep ? {
+        labels: ['Aantal eigen letters verworpen', 'Aantal vreemde letters verworpen'],
+        datasets: [{
+            data: [totGroep.Aantal_eigen_letters_verworpen, totGroep.Aantal_vreemde_letters_verworpen],
+            backgroundColor: ['#FF6384', '#36A2EB']
+        }]
+    } : null;
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,8 +89,20 @@ const Admin = () => {
         }
     };
 
+    const getActive = async () => {
+        try {
+            const response = await AdminService.getActive();
+            const data = await response.json();
+            setActive(data.groep);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    
+    }
+
     useEffect(() => {
-        fetchGroepen()
+        fetchGroepen();
+        getActive();
     }, []);
 
     return (
@@ -61,6 +111,7 @@ const Admin = () => {
             <h1 className="text-2xl">Welkom Jan Van der Vurst</h1>
 
             {message === '' ? null : <h2 className="text-3xl text-center text-green-600 py-6">{message}</h2>}
+            {active === '' ? null : <h2 className="text-xl underline underline-offset-8 py-6">De groep '{active}' is nu actief</h2>}
 
 
             <form onSubmit={handleSubmit} className="py-6">
@@ -108,6 +159,128 @@ const Admin = () => {
                     ))}
                 </tbody>
             </table>
+            <div className="py-6 flex items-center">
+                <label htmlFor="select-groep" className="block font-medium text-gray-700 mr-4">Selecteer groep:</label>
+                <select 
+                    id="select-groep" 
+                    name="select-groep" 
+                    value={selectedGroep} 
+                    onChange={handleSelectChange} 
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                >
+                    <option value="" disabled>Selecteer een groep</option>
+                    {groepen.map((groep, index) => (
+                        <option key={index} value={groep}>{groep}</option>
+                    ))}
+                </select>
+                <button 
+                    onClick={handleGenerateStatistics} 
+                    className="ml-4 p-2 bg-blue-500 text-white rounded-md"
+                >
+                    Genereer statistieken
+                </button>
+            </div>
+            {statsGroep && (
+                <div className="flex flex-row space-x-6">
+                    <div className="w-1/2">
+                        <Pie data={pieData} />
+                    </div>
+                    <div className="w-1/2">
+                        <h3 className="text-xl font-bold mb-4">{selectedGroep} Details</h3>
+                        <table className="min-w-full bg-white">
+                            <tbody>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Groep</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Groep}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal deelnemers</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_deelnemers}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal letterparen naam</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_letterparen_naam}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal letterparen dummy</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_letterparen_dummy}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Totaal letterparen</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Totaal_letterparen}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal eigen letters verworpen</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_eigen_letters_verworpen}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal vreemde letters verworpen</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_vreemde_letters_verworpen}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Significantie</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Significantie}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Actief</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Actief ? 'Ja' : 'Nee'}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
+
+            {totGroep && (
+                <div className="pt-3 flex flex-row space-x-6">
+                    <div className="w-1/2">
+                        <Pie data={pieTotData} />
+                    </div>
+                    <div className="w-1/2">
+                        <h3 className="text-xl font-bold mb-4">{totGroep.Groep} Details</h3>
+                        <table className="min-w-full bg-white">
+                            <tbody>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Groep</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Groep}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal deelnemers</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_deelnemers}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal letterparen naam</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_letterparen_naam}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal letterparen dummy</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_letterparen_dummy}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Totaal letterparen</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Totaal_letterparen}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal eigen letters verworpen</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_eigen_letters_verworpen}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Aantal vreemde letters verworpen</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_vreemde_letters_verworpen}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Significantie</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Significantie}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-2 px-4 border border-gray-200">Actief</td>
+                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Actief ? 'Ja' : 'Nee'}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
         </div>
         
     );

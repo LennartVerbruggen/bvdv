@@ -79,9 +79,132 @@ adminRouter.get('/groups', async (req, res) => {
 });
 
 
+/**
+ * @swagger
+ * /admin/activegroep:
+ *   get:
+ *     summary: Get the active group
+ *     description: Retrieve the name of the active group
+ *     responses:
+ *       '200':
+ *         description: A group name
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *     tags:
+ *       - Admin
+ */
+
+adminRouter.get('/activegroep', async (req, res) => {
+    try {
+        let excel = await read_excel_file();
+
+        // Assuming 'excel' is an array of rows, and each row is an object
+        const activeRow = excel.find(row => row.Actief === true);
+
+        if (activeRow) {
+            res.status(200).json({ groep: activeRow.Groep });
+        } else {
+            res.status(404).json({ message: 'No active group found' });
+        }
+    } catch (error) {
+        console.error('Error reading Excel file:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+});
+
+
+/**
+ * @swagger
+ * /admin/statistics/{groep}:
+ *   get:
+ *     summary: Get the statistics
+ *     description: Retrieve the data from the requested groep
+ *     parameters:
+ *       - in: path
+ *         name: groep
+ *         required: true
+ *         description: The name from the group from which stats need to be retrieved.
+ *         schema:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              groep:
+ *                type: string
+ *            required:
+ *              - groep
+ *     responses:
+ *       '200':
+ *         description: A list of statistics objects
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   Groep:
+ *                     type: string
+ *                     description: The name of the group
+ *                   Aantal_deelnemers:
+ *                     type: integer
+ *                     description: The number of participants
+ *                   Aantal_letterparen_naam:
+ *                     type: integer
+ *                     description: The number of letter pairs in the name
+ *                   Aantal_letterparen_dummy:
+ *                     type: integer
+ *                     description: The number of letter pairs in the dummy
+ *                   Totaal_letterparen:
+ *                     type: integer
+ *                     description: The total number of letter pairs
+ *                   Aantal_eigen_letters_verworpen:
+ *                     type: integer
+ *                     description: The number of own letters rejected
+ *                   Aantal_vreemde_letters_verworpen:
+ *                     type: integer
+ *                     description: The number of foreign letters rejected
+ *                   Significantie:
+ *                     type: number
+ *                     format: float
+ *                     description: The significance value
+ *                   Actief:
+ *                     type: boolean
+ *                     description: Whether the group is active
+ *     tags:
+ *       - Admin
+ */
+
+adminRouter.get('/statistics/:groep', async (req, res) => {
+
+    const groep = req.params.groep
+
+    try {
+        let excel = await read_excel_file();
+
+        // Assuming 'excel' is an array of rows, and each row is an object
+        const activeRow = excel.find(row => row.Groep === groep);
+        const totRow = excel.find(row => row.Groep === 'Totaal')
+
+        if (activeRow) {
+            res.status(200).json({ groep: activeRow, totaal: totRow});
+        } else {
+            res.status(404).json({ message: `Groep bestaat niet` });
+        }
+    } catch (error) {
+        console.error('Error reading Excel file:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+});
+
 /** 
  * @swagger
- * /admin/active:
+ * /admin/activate:
  *   post:
  *    summary: Admin sets active group
  *    tags: [Admin]
@@ -104,7 +227,7 @@ adminRouter.get('/groups', async (req, res) => {
  *        description: Groep not found
  */
 
-adminRouter.post('/active', async (req, res) => {
+adminRouter.post('/activate', async (req, res) => {
     const groep = req.body.groep
 
     console.log(groep)
