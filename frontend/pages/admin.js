@@ -242,39 +242,39 @@ const Admin = () => {
                             <tbody>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Groep</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Groep}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Groep}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Aantal deelnemers</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_deelnemers}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Aantal_deelnemers}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Aantal letterparen naam</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_letterparen_naam}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Aantal_letterparen_naam}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Aantal letterparen dummy</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_letterparen_dummy}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Aantal_letterparen_dummy}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Totaal letterparen</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Totaal_letterparen}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Totaal_letterparen}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Aantal eigen letters verworpen</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_eigen_letters_verworpen}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Aantal_eigen_letters_verworpen}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Aantal vreemde letters verworpen</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Aantal_vreemde_letters_verworpen}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Aantal_vreemde_letters_verworpen}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Significantie</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Significantie}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Significantie}</td>
                                 </tr>
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Actief</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Actief ? 'Ja' : 'Nee'}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Actief ? 'Ja' : 'Nee'}</td>
                                 </tr>
                             </tbody>
                         </table>
