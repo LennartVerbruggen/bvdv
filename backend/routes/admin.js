@@ -356,6 +356,8 @@ adminRouter.post('/create', async (req, res) => {
 adminRouter.delete('/delete', async (req, res) => {
     const groep = req.body.groep
 
+    console.log(groep)
+
     try {
         let excel = await read_excel_file();
 
@@ -374,7 +376,7 @@ adminRouter.delete('/delete', async (req, res) => {
         // Write the updated data back to the Excel file
         update_excel(updated_sheet);
 
-        res.status(200).json(`${groep} is verwijdert`);
+        res.status(200).json(`${groep} is verwijderd`);
         
     } catch (error) {
         console.error('Error deleting group:', error);
