@@ -1,5 +1,5 @@
 const getAllGroups = async () => {
-    return await fetch(`${process.env.API_URL}/admin/groups`, {
+    return await fetch(`http://158.180.14.4:3000/admin/groups`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -8,7 +8,7 @@ const getAllGroups = async () => {
 }
 
 const setActive = async (groep) => {
-    return await fetch(`${process.env.API_URL}/admin/activate/`, {
+    return await fetch(`http://158.180.14.4:3000/admin/activate/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ const setActive = async (groep) => {
 }
 
 const createGroep = async (groep) => {
-    return await fetch(`${process.env.API_URL}/admin/create/`, {
+    return await fetch(`http://158.180.14.4:3000/admin/create/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ const createGroep = async (groep) => {
 }
 
 const deleteGroep = async (groep) => {
-    return await fetch(`${process.env.API_URL}/admin/delete`, {
+    return await fetch(`http://158.180.14.4:3000/admin/delete`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ const deleteGroep = async (groep) => {
 }
 
 const generateStatistics = async (groep) => {
-    return await fetch(`${process.env.API_URL}/admin/statistics/${groep}`, {
+    return await fetch(`http://158.180.14.4:3000/admin/statistics/${groep}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -52,7 +52,8 @@ const generateStatistics = async (groep) => {
 }
 
 const getActive = async () => {
-    return await fetch(`${process.env.API_URL}/admin/activegroep`, {
+    console.log(`http://158.180.14.4:3000/admin/activegroep`)
+    return await fetch(`http://158.180.14.4:3000/admin/activegroep`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
