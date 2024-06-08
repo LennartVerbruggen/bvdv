@@ -192,13 +192,16 @@ usersRouter.post('/test', async (req, res) => {
     let eigen_naam_gekozen = 0
     let vreemde_gekozen = 0
 
-    letters.forEach(letter => {
-        if (uniq_name.includes(letter)) {
+    let lettersTest = letters.slice(0, eigen_naam_paren)
+
+    lettersTest.forEach(letter => {
+        if (uniq_name.includes(letter.toLowerCase())) {
             eigen_naam_gekozen++
         } else {
             vreemde_gekozen++
         }
     })
+
     let excel = await read_excel_file();    
 
 
