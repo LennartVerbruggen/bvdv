@@ -17,6 +17,7 @@ const Home = () => {
       <head>
         <title>BVDV App</title>
         <link rel="icon" type="image/png" href="/bvdv-icon.png"/>
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
       </head>
       <body className="bg-slate-200">
         <div className="container mx-auto pt-3 max-w-screen-lg">

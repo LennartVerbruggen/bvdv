@@ -52,7 +52,6 @@ const generateStatistics = async (groep) => {
 }
 
 const getActive = async () => {
-    console.log(`http://158.180.14.4:3000/admin/activegroep`)
     return await fetch(`http://158.180.14.4:3000/admin/activegroep`, {
         method: 'GET',
         headers: {
