@@ -1,3 +1,13 @@
+const getAllGroups = async () => {
+    return await fetch(`${process.env.API_URL}/admin/groups`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+}
+
+
 
 const register = async (user)=> {
     console.log('Registreren')
@@ -10,7 +20,7 @@ const register = async (user)=> {
     })
 }
 
-const sendTest = async (letters, name) => {
+const sendTest = async (letters, name, selectedGroup) => {
     console.log('Sending test')
     console.log(letters)
     return await fetch(`${process.env.API_URL}/users/test`, {
@@ -18,13 +28,13 @@ const sendTest = async (letters, name) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({letters, name})
+        body: JSON.stringify({letters, name, selectedGroup})
     })
 }
 
 
 const UserService = {
-    register, sendTest
+    register, sendTest, getAllGroups
 }
 
 export default UserService

@@ -181,7 +181,8 @@ usersRouter.post('/register', async (req, res) => {
 
 
 usersRouter.post('/test', async (req, res) => {
-    const {letters, name} = req.body
+    const {letters, name, selectedGroup} = req.body
+    console.log(selectedGroup)
     const name_array = name.replace(' ', '').split('')
     const uniq_name = removeDuplicates(name_array) 
     
@@ -206,7 +207,7 @@ usersRouter.post('/test', async (req, res) => {
 
 
     // Find the row where 'Actief' is TRUE
-    const activeRow = excel.find(row => row.Actief === true);
+    const activeRow = excel.find(row => row.Groep === selectedGroup);
 
     const totaalRow = excel.find(row => row.Groep === 'Totaal')
 
