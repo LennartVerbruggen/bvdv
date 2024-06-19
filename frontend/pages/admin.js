@@ -10,18 +10,8 @@ const Admin = () => {
     const [message, setMessage] = useState('')
     const [newGroep, setNewGroep] = useState('');
     const [selectedGroep, setSelectedGroep] = useState('');
-    const [active, setActive] = useState('')
     const [statsGroep, setStatsGroep] = useState({})
     const [totGroep, setTotGroep] = useState({})
-
-    const handleGroepClick = async (groep) => {
-        console.log(groep)
-        const response = await AdminService.setActive(groep)
-        const data = await response.json();
-        setMessage(data);
-
-        getActive();
-    };
 
     const handleInputChange = (e) => {
         setNewGroep(e.target.value);
@@ -45,7 +35,6 @@ const Admin = () => {
     const handleGenerateStatistics = async () => {
         const response = await AdminService.generateStatistics(selectedGroep)
         const data = await response.json();
-        console.log(data)
 
         setStatsGroep(data.groep)
         setTotGroep(data.totaal)
@@ -89,20 +78,8 @@ const Admin = () => {
         }
     };
 
-    const getActive = async () => {
-        try {
-            const response = await AdminService.getActive();
-            const data = await response.json();
-            setActive(data.groep);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    
-    }
-
     useEffect(() => {
         fetchGroepen();
-        getActive();
     }, []);
 
     return (
@@ -111,8 +88,6 @@ const Admin = () => {
             <h1 className="text-2xl">Welkom Jan Van der Vurst</h1>
 
             {message === '' ? null : <h2 className="text-3xl text-center text-green-600 py-6">{message}</h2>}
-            {active === '' ? null : <h2 className="text-xl underline underline-offset-8 py-6">De groep '{active}' is nu actief</h2>}
-
 
             <form onSubmit={handleSubmit} className="py-6">
                 <label htmlFor="groep" className="block text-sm font-medium text-gray-700">Groepsnaam:</label>
@@ -141,7 +116,6 @@ const Admin = () => {
                         <tr 
                             key={index} 
                             className="cursor-pointer hover:bg-gray-100"
-                            onClick={() => handleGroepClick(groep)}
                         >
                             <td className="py-2 px-4 border border-gray-200">{groep}</td>
                             <td className="py-2 px-4 border border-gray-200">
@@ -221,10 +195,6 @@ const Admin = () => {
                                     <td className="py-2 px-4 border border-gray-200">Significantie</td>
                                     <td className="py-2 px-4 border border-gray-200">{statsGroep.Significantie}</td>
                                 </tr>
-                                <tr>
-                                    <td className="py-2 px-4 border border-gray-200">Actief</td>
-                                    <td className="py-2 px-4 border border-gray-200">{statsGroep.Actief ? 'Ja' : 'Nee'}</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -271,10 +241,6 @@ const Admin = () => {
                                 <tr>
                                     <td className="py-2 px-4 border border-gray-200">Significantie</td>
                                     <td className="py-2 px-4 border border-gray-200">{totGroep.Significantie}</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 px-4 border border-gray-200">Actief</td>
-                                    <td className="py-2 px-4 border border-gray-200">{totGroep.Actief ? 'Ja' : 'Nee'}</td>
                                 </tr>
                             </tbody>
                         </table>

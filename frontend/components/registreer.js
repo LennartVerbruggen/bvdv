@@ -1,4 +1,4 @@
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import UserService from "../Services/UserService"
 
 const Registreer = () => {
@@ -18,6 +18,15 @@ const Registreer = () => {
   const [results, setResults] = useState(Array(10).fill(null));
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
+
+  const [selectedGroup, setSelectedGroep] = useState('')
+  const [groups, setGroups] = useState([])
+
+  const handleSelectChange = (e) => {
+    const selectedGroup = e.target.value;
+    setSelectedGroep(selectedGroup);
+    onSelect(selectedGroup);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,16 +66,41 @@ const Registreer = () => {
   };
 
   const sendLetters = async () => {
-    const response = await UserService.sendTest(results, name)
+    const response = await UserService.sendTest(results, name, selectedGroup)
     response.json().then((message) => {
       setMessage(message.message)
     })
+  };
+
+  const fetchGroups = async () => {
+    const response = await UserService.getAllGroups()
+    const data = await response.json()
+    setGroups(data)
   }
+  
+  useEffect(() => {
+    fetchGroups()
+  }, []);
 
   return (
     <div className="p-4 mx-auto max-w-md text-black">
       {!registered ? (
         <><h1 className="text-xl font-bold mb-4 text-center">Registreren</h1><form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="group-select" className="block text-sm font-medium text-gray-700">Selecteer een groep:</label>
+            <select
+                id="group-select"
+                name="group"
+                value={selectedGroup}
+                onChange={handleSelectChange}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+            >
+                <option value="" disabled>-- Selecteer een groep --</option>
+                {groups.map((group, index) => (
+                    <option key={index} value={group}>{group}</option>
+                ))}
+            </select>
+          </div> 
           <div>
             <label className="block mb-1">Voornaam:</label>
             <input

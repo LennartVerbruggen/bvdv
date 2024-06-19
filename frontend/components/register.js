@@ -27,7 +27,7 @@ const Register = () => {
     const selectedGroup = e.target.value;
     setSelectedGroep(selectedGroup);
     onSelect(selectedGroup);
-};
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -7,17 +7,6 @@ const getAllGroups = async () => {
     })
 }
 
-const setActive = async (groep) => {
-    return await fetch(`${process.env.API_URL}/admin/activate/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({groep})
-    })
-
-}
-
 const createGroep = async (groep) => {
     return await fetch(`${process.env.API_URL}/admin/create/`, {
         method: 'POST',
@@ -51,18 +40,8 @@ const generateStatistics = async (groep) => {
     })
 }
 
-const getActive = async () => {
-    return await fetch(`${process.env.API_URL}/admin/activegroep`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-
-}
-
 const AdminService = {
-    getAllGroups, setActive, createGroep, deleteGroep, generateStatistics, getActive
+    getAllGroups, createGroep, deleteGroep, generateStatistics
 }
 
 export default AdminService
