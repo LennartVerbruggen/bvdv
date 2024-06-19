@@ -31,6 +31,8 @@ function generatePairs(name) {
     let chars = removeDuplicates(cleaned.split(""));
     let remainder = removeIntersection(alphabet, chars);
 
+
+    let nameLetters = []
     let pairs = []
     for (let i = 0; i < 10; i++) {
         if (chars.length > 0) {
@@ -44,6 +46,7 @@ function generatePairs(name) {
             }
 
             const char1 = chars[r];
+            nameLetters.push(chars[r])
             const char2 = remainder[Math.floor(Math.random() * remainder.length)];
 
             const coin_flip = (Math.random() < 0.5);
@@ -67,7 +70,7 @@ function generatePairs(name) {
         }
     }
 
-    return pairs;
+    return [pairs, nameLetters];
 }
 
 module.exports = generatePairs;

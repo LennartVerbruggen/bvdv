@@ -10,7 +10,6 @@ const getAllGroups = async () => {
 
 
 const register = async (user)=> {
-    console.log('Registreren')
     return await fetch(`${process.env.API_URL}/users/register`, {
         method: 'POST',
         headers: {
@@ -22,7 +21,6 @@ const register = async (user)=> {
 
 const sendTest = async (letters, name, selectedGroup) => {
     console.log('Sending test')
-    console.log(letters)
     return await fetch(`${process.env.API_URL}/users/test`, {
         method: 'POST',
         headers: {

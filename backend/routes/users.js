@@ -140,8 +140,9 @@ usersRouter.post('/register', async (req, res) => {
     
     if (firstName !== undefined && lastName !== undefined) {
         let name = firstName.concat(" ", lastName)
-        const pairs = generatePairs(name);
-        res.status(200).json(pairs)
+        let [pairs, nameLetters] = generatePairs(name);
+        
+        res.status(200).json({ pairs: pairs, nameLetters: nameLetters})
     } else {
         res.send({
             status: 400,
@@ -183,8 +184,7 @@ usersRouter.post('/register', async (req, res) => {
 usersRouter.post('/test', async (req, res) => {
     const {letters, name, selectedGroup} = req.body
     console.log(selectedGroup)
-    const name_array = name.replace(' ', '').split('')
-    const uniq_name = removeDuplicates(name_array) 
+    const uniq_name = name
     
     // Definieer aantal paren
     const eigen_naam_paren = uniq_name.length
@@ -196,7 +196,7 @@ usersRouter.post('/test', async (req, res) => {
     let lettersTest = letters.slice(0, eigen_naam_paren)
 
     lettersTest.forEach(letter => {
-        if (uniq_name.includes(letter.toLowerCase())) {
+        if (uniq_name.includes(letter)) {
             eigen_naam_gekozen++
         } else {
             vreemde_gekozen++

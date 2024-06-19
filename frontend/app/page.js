@@ -20,7 +20,8 @@ const Home = () => {
       setTest(false)
     )
     else (
-      setTest(true)
+      setTest(true),
+      setChart(false)
     )
   }
 
@@ -29,7 +30,8 @@ const Home = () => {
       setChart(false)
     )
     else (
-      setChart(true)
+      setChart(true),
+      setTest(false)
     )
   }
 
@@ -67,12 +69,12 @@ const Home = () => {
               />
             </div>
           </div>
-          {english ? (<p className="pt-5 text-center">Welcome user, here u can prepare yourself for the seminar.<br/>Complete the registration and study the stakeholder interaction chart by clicking the buttons.</p>
-          ) : (<p className="pt-5 text-center">Welkom gebruiker, hier kan u zichzelf voorbereiden voor het seminarie.<br/>Vul de registratie in en bekijk de stakeholder interaction chart door op de knoppen te klikken.</p>)}
+          {english ? (<p className="pt-5 text-center">Welcome, here u can prepare yourself for the training.<br/>Complete the lettercombinations and study the focuspoints stakeholdering by clicking the buttons.</p>
+          ) : (<p className="pt-5 text-center">Welkom, hier kan u zichzelf voorbereiden voor het training.<br/>Vul het lettercombinaties in en bekijk de aandachtspunten stakeholdering door op de knoppen te klikken.</p>)}
           
-          <div className="flex justify-center pt-5 gap-5 mb-6">
-            <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4`} onClick={() => handleTestButtonClick()}>{english ? "Register": "Registratie"}</button>
-            <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4`} onClick={() => handleChartButtonClick()}>Stakeholder interaction chart</button>
+          <div className="flex flex-col sm:flex-row justify-center pt-5 gap-5 mb-6">
+            <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleTestButtonClick()}>{english ? "Lettercombinations": "Lettercombinaties"}</button>
+            <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleChartButtonClick()}>{english ? "Focuspoints stakeholdering" : "Aandachtspunten stakeholdering"}</button>
           </div>
 
           <div className="mb-6">

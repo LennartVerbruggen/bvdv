@@ -103,7 +103,6 @@ const Admin = () => {
             </form>
 
             <h2 className="py-3 text-xl">Groepen</h2>
-            <p>Klik op een groep om ze actief te maken</p>
             <table className="min-w-full bg-white">
                 <thead>
                     <tr>

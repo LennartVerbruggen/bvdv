@@ -101,7 +101,7 @@ const StakeholderPieChart = () => {
 
     return (
         <div className="pie-chart-container">
-            <h2 className="text-center text-2xl font-bold">Stakeholder Interactions</h2>
+            <h2 className="text-center text-2xl font-bold">Stakeholdering</h2>
             <Pie data={data} options={options} />
         </div>
     );
