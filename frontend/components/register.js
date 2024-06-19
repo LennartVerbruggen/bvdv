@@ -19,6 +19,7 @@ const Register = () => {
   const [results, setResults] = useState(Array(10).fill(null));
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
+  const [completed, setCompleted] = useState(false)
 
   const [selectedGroup, setSelectedGroep] = useState('')
   const [groups, setGroups] = useState([])
@@ -26,7 +27,6 @@ const Register = () => {
   const handleSelectChange = (e) => {
     const selectedGroup = e.target.value;
     setSelectedGroep(selectedGroup);
-    onSelect(selectedGroup);
   };
 
   const handleChange = (e) => {
@@ -67,11 +67,14 @@ const Register = () => {
   };
 
   const sendLetters = async () => {
-    const response = await UserService.sendTest(results, name, selectedGroup)
-    response.json().then((message) => {
-      setMessage(message.message)
-    })
-  }
+    if (!completed) {
+      const response = await UserService.sendTest(results, name, selectedGroup)
+      response.json().then((message) => {
+        setMessage(message.message)
+      })
+      setCompleted(true)
+    }
+  };
 
   const fetchGroups = async () => {
     const response = await UserService.getAllGroups()
@@ -172,7 +175,7 @@ const Register = () => {
                 key={buttonIndex}
                 onClick={() => handleButtonClick(rowIndex, buttonIndex)}
                 className={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50
-                  ${clicked[rowIndex][buttonIndex] ? 'bg-green-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500'}
+                  ${clicked[rowIndex][buttonIndex] ? 'bg-red-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500'}
                 `}
               >
                   {letter}

@@ -15,6 +15,24 @@ const Home = () => {
     setEnglish(isEnglish);
   };
 
+  const handleTestButtonClick = () => {
+    if (test) (
+      setTest(false)
+    )
+    else (
+      setTest(true)
+    )
+  }
+
+  const handleChartButtonClick = () => {
+    if (chart) (
+      setChart(false)
+    )
+    else (
+      setChart(true)
+    )
+  }
+
   return (
     <>
       <head>
@@ -53,11 +71,13 @@ const Home = () => {
           ) : (<p className="pt-5 text-center">Welkom gebruiker, hier kan u zichzelf voorbereiden voor het seminarie.<br/>Vul de registratie in en bekijk de stakeholder interaction chart door op de knoppen te klikken.</p>)}
           
           <div className="flex justify-center pt-5 gap-5 mb-6">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4" onClick={() => setTest(true)}>Registratie</button>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4" onClick={() => setChart(true)}>Stakeholder interaction chart</button>
+            <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4`} onClick={() => handleTestButtonClick()}>{english ? "Register": "Registratie"}</button>
+            <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4`} onClick={() => handleChartButtonClick()}>Stakeholder interaction chart</button>
           </div>
 
-          {test ? (<>{english ? <Register /> : <Registreer />}</>) : (<></>)}
+          <div className="mb-6">
+            {test ? (<>{english ? <Register /> : <Registreer />}</>) : (<></>)}
+          </div>
           
           {chart ? (<StakeholderPieChart />) : (<></>)} 
         </div>

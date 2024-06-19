@@ -2,6 +2,7 @@ const express = require('express');
 const adminRouter = express.Router();
 const xlsx = require('xlsx');
 const path = require('path');
+const jStat = require('jstat')
 
 
 const read_excel_file = async () => {
@@ -190,6 +191,18 @@ adminRouter.get('/statistics/:groep', async (req, res) => {
         const activeRow = excel.find(row => row.Groep === groep);
         const totRow = excel.find(row => row.Groep === 'Totaal')
 
+        const population_vreemde_letters = Array(totRow.Aantal_vreemde_letters_verworpen).fill(totRow.Aantal_vreemde_letters_verworpen);
+        const sample_vreemde_letters = Array(activeRow.Aantal_vreemde_letters_verworpen).fill(activeRow.Aantal_vreemde_letters_verworpen);
+
+        const vreemde_letters_ttest = jStat.ttest(
+            jStat.mean(sample_vreemde_letters),
+            jStat.mean(population_vreemde_letters),
+            activeRow.Aantal_letterparen_naam,
+            2
+        );
+
+        console.log('T-test for Aantal_vreemde_letters_verworpen:', vreemde_letters_ttest);
+
         if (activeRow) {
             res.status(200).json({ groep: activeRow, totaal: totRow});
         } else {
@@ -355,8 +368,6 @@ adminRouter.post('/create', async (req, res) => {
 
 adminRouter.delete('/delete', async (req, res) => {
     const groep = req.body.groep
-
-    console.log(groep)
 
     try {
         let excel = await read_excel_file();

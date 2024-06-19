@@ -18,6 +18,7 @@ const Registreer = () => {
   const [results, setResults] = useState(Array(10).fill(null));
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
+  const [completed, setCompleted] = useState(false)
 
   const [selectedGroup, setSelectedGroep] = useState('')
   const [groups, setGroups] = useState([])
@@ -25,7 +26,6 @@ const Registreer = () => {
   const handleSelectChange = (e) => {
     const selectedGroup = e.target.value;
     setSelectedGroep(selectedGroup);
-    onSelect(selectedGroup);
   };
 
   const handleChange = (e) => {
@@ -66,10 +66,13 @@ const Registreer = () => {
   };
 
   const sendLetters = async () => {
-    const response = await UserService.sendTest(results, name, selectedGroup)
-    response.json().then((message) => {
-      setMessage(message.message)
-    })
+    if (!completed) {
+      const response = await UserService.sendTest(results, name, selectedGroup)
+      response.json().then((message) => {
+        setMessage(message.message)
+      })
+      setCompleted(true)
+    }
   };
 
   const fetchGroups = async () => {

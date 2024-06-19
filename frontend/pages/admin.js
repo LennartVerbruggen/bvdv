@@ -21,7 +21,7 @@ const Admin = () => {
         console.log('Delete groep:', groep);
         // You can also add logic to delete the group if needed
 
-        const response = await AdminService.deleteGroep(newGroep)
+        const response = await AdminService.deleteGroep(groep)
         const data = await response.json();
         setMessage(data)
 
