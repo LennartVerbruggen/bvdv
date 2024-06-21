@@ -69,12 +69,12 @@ const Home = () => {
               />
             </div>
           </div>
-          {english ? (<p className="pt-5 text-center">Welcome, here u can prepare yourself for the training.<br/>Complete the lettercombinations and study the focuspoints stakeholdering by clicking the buttons.</p>
-          ) : (<p className="pt-5 text-center">Welkom, hier kan u zichzelf voorbereiden voor het training.<br/>Vul het lettercombinaties in en bekijk de aandachtspunten stakeholdering door op de knoppen te klikken.</p>)}
+          {english ? (<p className="pt-5 text-center">Welcome. In preparation for the training, you can complete the letter experiment below.<br/> Together with the registration, this will take approximately 1 minute.<br/> You will also find a button here to get an overview of the focus points.</p>
+          ) : (<p className="pt-5 text-center">Welkom. Als voorbereiding op de training kan je hieronder de lettercombinaties invullen.<br/> Dit duurt samen met de registratie ongeveer 1 minuut.<br/> Je vindt hier ook een knop om het overzicht te krijgen van de aandachtspunten.</p>)}
           
           <div className="flex flex-col sm:flex-row justify-center pt-5 gap-5 mb-6">
-            <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleTestButtonClick()}>{english ? "Lettercombinations": "Lettercombinaties"}</button>
-            <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleChartButtonClick()}>{english ? "Focuspoints stakeholdering" : "Aandachtspunten stakeholdering"}</button>
+            <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleTestButtonClick()}>{english ? "Letter combinations": "Lettercombinaties"}</button>
+            <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleChartButtonClick()}>{english ? "Focus points stakeholdering" : "Aandachtspunten Stakeholdering"}</button>
           </div>
 
           <div className="mb-6">

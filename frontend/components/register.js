@@ -197,8 +197,8 @@ const Register = () => {
         
         <>
           <h1 className="text-2xl font-bold text-center pb-4">Select the bad letters</h1>
-          {message === '' ? null : <h2 className='font-bold text-center text-xl pb-4 text-green-600'>{message}</h2>}
-          <p className='pb-8 text-center'>Here you find a sequence of two letters. For each pair, remove the letter you like the <bold>LEAST </bold> for whatever reason by clicking on them.<br/> Be quick, we will discuss the results during the training.</p>
+          
+          <p className='pb-8 text-center'>Below you find a sequence of two letters.<br/> For each pair, click on the letter that, for whatever reason, you like the LEAST. Be quick.<br/> We will discuss the results during the training.</p>
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">
               {pair.map((letter, buttonIndex) => (
@@ -214,6 +214,7 @@ const Register = () => {
               ))}
             </div>
           ))}
+          {completed ? <h2 className='font-bold text-center text-xl pb-4 text-green-600'>Test completed</h2> : ''}
           <button type="submit"
             className="w-full mt-3 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={() => sendLetters()}>

@@ -193,8 +193,9 @@ const Registreer = () => {
   
         <>
           <h1 className="text-2xl font-bold text-center pb-4">Selecteer de slechte letters</h1>
-          {message === '' ? null : <h2 className='font-bold text-center text-xl pb-4 text-green-600'>{message}</h2>}
-          <p className='pb-8 text-center'>Hier vindt je een reeks van telkens 2 letters. Wil je van elk paar de letter weghalen die om welke reden dan ook het <bold>MINST </bold> aanspreekt door ze aan te klikken.<br/> Wees snel, we bespreken de resultaten tijdens de training.</p>
+          <p className='pb-8 text-center'>Hier vind je een reeks van telkens 2 letters.<br/>
+                                          Klik van elk paar de letter weg die je om welke reden dan ook het MINST aanspreekt?<br/>
+                                          Werk snel. We bespreken dit verder tijdens de training.</p>
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">
               {pair.map((letter, buttonIndex) => (
@@ -210,6 +211,7 @@ const Registreer = () => {
               ))}
             </div>
           ))}
+          {completed ? <h2 className='font-bold text-center text-xl pb-4 text-green-600'>Test voltooid</h2> : ''}
           <button type="submit"
             className="w-full mt-3 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={() => sendLetters()}>
