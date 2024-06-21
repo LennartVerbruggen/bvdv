@@ -40,8 +40,18 @@ const generateStatistics = async (groep) => {
     })
 }
 
+
+const downloadExcel = async () => {
+    return await fetch(`${process.env.API_URL}/admin/download-excel`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        },
+      });
+}
+
 const AdminService = {
-    getAllGroups, createGroep, deleteGroep, generateStatistics
+    getAllGroups, createGroep, deleteGroep, generateStatistics, downloadExcel
 }
 
 export default AdminService

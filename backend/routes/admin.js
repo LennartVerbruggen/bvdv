@@ -201,6 +201,13 @@ adminRouter.get('/statistics/:groep', async (req, res) => {
             2
         );
 
+        if (vreemde_letters_ttest <= 0.01) {
+            activeRow.Significantie = 0.01;
+        } else if (vreemde_letters_ttest <= 0.05) {
+            activeRow.Significantie = 0.05;
+        } else {
+            activeRow.Significantie = 0.1;
+        }
         console.log('T-test for Aantal_vreemde_letters_verworpen:', vreemde_letters_ttest);
 
         if (activeRow) {
@@ -394,6 +401,36 @@ adminRouter.delete('/delete', async (req, res) => {
         res.status(500).send('Internal server error.');
     }
 })
+
+
+/**
+ * @swagger
+ * /download-excel:
+ *   get:
+ *     summary: Download an Excel file
+ *     description: Endpoint to download an Excel file
+ *     responses:
+ *       200:
+ *         description: File downloaded successfully
+ *         content:
+ *           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       500:
+ *         description: Internal Server Error
+ */
+
+adminRouter.get('/download-excel', (req, res) => {
+    console.log('Downloading')
+    const filePath = path.join(__dirname, '../Data/data.xlsx');
+    console.log(filePath)
+    res.download(filePath, 'letter_data.xlsx', (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+      }
+    });
+  });
 
 
 module.exports = adminRouter;

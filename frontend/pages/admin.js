@@ -4,7 +4,6 @@ import AdminService from "../Services/AdminService"
 import { Pie } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 
-
 const Admin = () => {
     const [groepen, setGroepen] = useState([])
     const [message, setMessage] = useState('')
@@ -67,6 +66,24 @@ const Admin = () => {
 
         fetchGroepen();
     };
+
+    const handleDownload = async () => {
+        console.log('Downloading excel')
+        const response = await AdminService.downloadExcel();
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'letter_data.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      };
 
     const fetchGroepen = async () => {
         try {
@@ -132,6 +149,14 @@ const Admin = () => {
                     ))}
                 </tbody>
             </table>
+            <div>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-4 py-2 px-4 rounded"
+                    onClick={handleDownload}
+                    >
+                    Download Excel
+                </button>
+            </div>
             <div className="py-6 flex items-center">
                 <label htmlFor="select-groep" className="block font-medium text-gray-700 mr-4">Selecteer groep:</label>
                 <select 
