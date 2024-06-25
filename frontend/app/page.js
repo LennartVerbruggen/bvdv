@@ -5,7 +5,6 @@ import Register from "@/components/register";
 import Registreer from "@/components/registreer";
 import StakeholderPieChart from '@/components/stakeholderchart';
 import { useState } from 'react';
-import Head from "next/head";
 
 const Home = () => {
 
@@ -44,11 +43,11 @@ const Home = () => {
 
   return (
     <>
-      <Head>
+      <head>
         <title>BVDV App</title>
-        <link rel="icon" type="image/png" href="/bvdv-icon.png"/>
-      </Head>
-      <body className="bg-slate-200">
+        <link rel="icon" type="image/x-icon" href="/bvdv-icon.png"/>
+      </head>
+      <body className="">
         <div className="container mx-auto pt-3 max-w-screen-lg">
           <div className="flex items-center justify-between mb-4 px-3">
             {/* Logo */}

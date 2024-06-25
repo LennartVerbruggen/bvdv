@@ -20,7 +20,7 @@ const ChartPage = () => {
             <link rel="icon" type="image/png" href="/bvdv-icon.png"/>
         </Head>
         
-        <div className="bg-slate-200">
+        <div>
             <div className="container mx-auto py-3 max-w-screen-lg">
                 <div className="flex items-center justify-between mb-4 px-3">
                     {/* Logo */}
