@@ -10,30 +10,35 @@ const Home = () => {
   const [english, setEnglish] = useState(false);
   const [test, setTest] = useState(false);
   const [chart, setChart] = useState(false)
+  const [message, setMessage] = useState('')
 
   const handleFlagClick = (isEnglish) => {
     setEnglish(isEnglish);
   };
 
   const handleTestButtonClick = () => {
-    if (test) (
-      setTest(false)
-    )
-    else (
-      setTest(true),
-      setChart(false)
-    )
+    setTest(prevState => !prevState);
+    setChart(false);
   }
 
   const handleChartButtonClick = () => {
-    if (chart) (
-      setChart(false)
-    )
-    else (
-      setChart(true),
-      setTest(false)
-    )
+    setChart(prevState => !prevState);
+    setTest(false);
   }
+
+  const handleTestSubmit = () => {
+    setTest(false);
+    if (english) {
+      setMessage('Test completed')
+    } else {
+      setMessage('Test voltooid')
+    }
+
+    // Clear the message after 3 seconds
+    setTimeout(() => {
+      setMessage('');
+    }, 3000);
+  };
 
   return (
     <>
@@ -77,8 +82,10 @@ const Home = () => {
             <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleChartButtonClick()}>{english ? "Focus points stakeholdering" : "Aandachtspunten Stakeholdering"}</button>
           </div>
 
+          {message === '' ? null : <h2 className="text-xl text-center text-green-600 py-6">{message}</h2>}
+
           <div className="mb-6">
-            {test ? (<>{english ? <Register /> : <Registreer />}</>) : (<></>)}
+            {test ? (<>{english ? <Register onTestSubmit={handleTestSubmit}/> : <Registreer onTestSubmit={handleTestSubmit}/>}</>) : (<></>)}
           </div>
           
           {chart ? (<StakeholderPieChart />) : (<></>)} 

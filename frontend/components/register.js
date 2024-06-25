@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import UserService from "../Services/UserService"
 
 
-const Register = () => {
+const Register = ({ onTestSubmit }) => {
   let data = Array.from({ length: 10 }, () => [null, null]);
   const [registered, setRegistered] = useState(false)
   const initialClickedState = data.map(() => [false, false]);
@@ -74,6 +74,7 @@ const Register = () => {
       response.json().then((message) => {
         setMessage(message.message)
       })
+      onTestSubmit();
       setCompleted(true)
     }
   };
@@ -214,7 +215,6 @@ const Register = () => {
               ))}
             </div>
           ))}
-          {completed ? <h2 className='font-bold text-center text-xl pb-4 text-green-600'>Test completed</h2> : ''}
           <button type="submit"
             className="w-full mt-3 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={() => sendLetters()}>
