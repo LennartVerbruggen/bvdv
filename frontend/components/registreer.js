@@ -9,8 +9,6 @@ const Registreer = ({ onTestSubmit }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    age: '',
-    gender: '',
     email: '',
   });
   const [pairs, setPairs] = useState('')
@@ -70,6 +68,7 @@ const Registreer = ({ onTestSubmit }) => {
   const sendLetters = async () => {
     if (!completed) {
       const response = await UserService.sendTest(results, nameLetters, selectedGroup)
+      console.log('fail')
       response.json().then((message) => {
         setMessage(message.message)
       })
@@ -101,7 +100,7 @@ const Registreer = ({ onTestSubmit }) => {
                 onChange={handleSelectChange}
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
             >
-                <option value="" disabled>-- Selecteer een groep --</option>
+                <option value="" disabled>-- Selecteer je groep --</option>
                 {groups.map((group, index) => (
                     <option key={index} value={group}>{group}</option>
                 ))}
@@ -127,50 +126,6 @@ const Registreer = ({ onTestSubmit }) => {
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
           </div>
-          <div>
-          <label className="block mb-1">Leeftijd:</label>
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
-        </div>
-        <div>
-            <label className="block mb-1">Geslacht:</label>
-            <div className="flex items-center mb-4">
-              <input
-                type="radio"
-                id="genderM"
-                name="gender"
-                value="M"
-                checked={formData.gender === 'M'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="genderM" className="mr-4">M</label>
-              <input
-                type="radio"
-                id="genderF"
-                name="gender"
-                value="F"
-                checked={formData.gender === 'F'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="genderF" className="mr-4">V</label>
-              <input
-                type="radio"
-                id="genderX"
-                name="gender"
-                value="X"
-                checked={formData.gender === 'X'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="genderX">X</label>
-            </div>
             <div>
               <label className="block mb-1">Email:</label>
               <input
@@ -181,7 +136,6 @@ const Registreer = ({ onTestSubmit }) => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
             </div>
-          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
@@ -189,13 +143,13 @@ const Registreer = ({ onTestSubmit }) => {
             Beginnen
           </button>
         </form>
-        <p className="text-gray-400 pt-3 text-center">Uw gegevens worden niet opgeslagen. Dit formulier is alleen voor demonstratiedoeleinden</p></>
+        <p className="text-gray-400 pt-3 text-center">Uw gegevens worden niet opgeslagen. Dit formulier wordt enkel gebruikt voor deze training.</p></>
       ) : (
   
         <>
           <h1 className="text-2xl font-bold text-center pb-4">Selecteer de slechte letters</h1>
-          <p className='pb-8 text-center'>Hier vind je een reeks van telkens 2 letters.<br/>
-                                          Klik van elk paar de letter weg die je om welke reden dan ook het MINST aanspreekt?<br/>
+          <p className='pb-8 text-center'>Hier vind je een reeks van telkens twee letters.<br/>
+                                          Klik van elk paar de letter aan die je om welke reden dan ook het MINST aanspreekt? Deze kleurt rood.<br/>
                                           Werk snel. We bespreken dit verder tijdens de training.</p>
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">

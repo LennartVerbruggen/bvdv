@@ -11,8 +11,6 @@ const Register = ({ onTestSubmit }) => {
     firstName: '',
     lastName: '',
     email: '',
-    password: '',
-    confirmPassword: '',
   });
   const [pairs, setPairs] = useState('')
   // Initialize the results array
@@ -129,51 +127,6 @@ const Register = ({ onTestSubmit }) => {
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
         </div>
-        <div>
-          <label className="block mb-1">Age:</label>
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
-        </div>
-        <div>
-            <label className="block mb-1">Gender:</label>
-            <div className="flex items-center mb-4">
-              <input
-                type="radio"
-                id="genderM"
-                name="gender"
-                value="M"
-                checked={formData.gender === 'M'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="genderM" className="mr-4">M</label>
-              <input
-                type="radio"
-                id="genderF"
-                name="gender"
-                value="F"
-                checked={formData.gender === 'F'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="genderF" className="mr-4">F</label>
-              <input
-                type="radio"
-                id="genderX"
-                name="gender"
-                value="X"
-                checked={formData.gender === 'X'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="genderX">X</label>
-            </div>
-            </div>
         <div>
           <label className="block mb-1">Email:</label>
           <input

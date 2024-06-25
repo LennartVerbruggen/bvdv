@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
+ChartJS.register(ArcElement, Tooltip, ChartDataLabels);
 
 const StakeholderPieChart = () => {
     const labels = [
@@ -85,6 +85,14 @@ const StakeholderPieChart = () => {
                     label: function (tooltipItem) {
                         return descriptions[tooltipItem.dataIndex];
                     }
+                },
+                titleFont: {
+                    size: 16,
+                    weight: 'bold'
+                },
+                bodyFont: {
+                    size: 14,
+                    weight: 'bold'
                 }
             },
             datalabels: {
@@ -93,7 +101,8 @@ const StakeholderPieChart = () => {
                 },
                 color: '#fff',
                 font: {
-                    weight: 'bold'
+                    weight: 'bold',
+                    size: 16
                 }
             }
         }
@@ -101,7 +110,6 @@ const StakeholderPieChart = () => {
 
     return (
         <div className="pie-chart-container">
-            <h2 className="text-center text-2xl font-bold">Stakeholdering</h2>
             <Pie data={data} options={options} />
         </div>
     );
