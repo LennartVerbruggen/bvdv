@@ -30,15 +30,15 @@ const Home = () => {
   const handleTestSubmit = () => {
     setTest(false);
     if (english) {
-      setMessage('Test completed')
+      setMessage('Test completed. The data will only be used during the training. Shortly, you will be redirected to the homepage.')
     } else {
-      setMessage('Test voltooid')
+      setMessage('Test voltooid. De gegevens zullen enkel gebruikt worden tijdens de training. Zo meteen kom je terug op het startscherm.')
     }
 
     // Clear the message after 3 seconds
     setTimeout(() => {
       setMessage('');
-    }, 3000);
+    }, 8000);
   };
 
   return (

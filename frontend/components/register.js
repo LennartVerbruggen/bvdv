@@ -46,6 +46,7 @@ const Register = ({ onTestSubmit }) => {
     const newResults = [...results];
     newResults[rowIndex] = pairs[rowIndex][buttonIndex];
     setResults(newResults);
+    console.log(results)
   };
 
   const handleSubmit = async (e) => {
@@ -67,6 +68,11 @@ const Register = ({ onTestSubmit }) => {
   };
 
   const sendLetters = async () => {
+    // If one of the elements in results is null, stop the method and set a message
+    if (results.includes(null)) {
+      setMessage('For each pair select one letter before submitting');
+      return;
+    } 
     if (!completed) {
       const response = await UserService.sendTest(results, nameLetters, selectedGroup)
       response.json().then((message) => {
@@ -153,6 +159,7 @@ const Register = ({ onTestSubmit }) => {
           <h1 className="text-2xl font-bold text-center pb-4">Select the bad letters</h1>
           
           <p className='pb-8 text-center'>Below you find a sequence of two letters.<br/> For each pair, click on the letter that, for whatever reason, you like the LEAST. Be quick.<br/> We will discuss the results during the training.</p>
+          {message === '' ? null : <h2 className="text-3xl text-center text-red-600 py-6">{message}</h2>}
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">
               {pair.map((letter, buttonIndex) => (

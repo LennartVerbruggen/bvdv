@@ -66,6 +66,11 @@ const Registreer = ({ onTestSubmit }) => {
   };
 
   const sendLetters = async () => {
+    // If one of the elements in results is null, stop the method and set a message
+    if (results.includes(null)) {
+      setMessage('Selecteer voor elk paar één letter voor het indienen');
+      return;
+    } 
     if (!completed) {
       const response = await UserService.sendTest(results, nameLetters, selectedGroup)
       console.log('fail')
@@ -151,6 +156,7 @@ const Registreer = ({ onTestSubmit }) => {
           <p className='pb-8 text-center'>Hier vind je een reeks van telkens twee letters.<br/>
                                           Klik van elk paar de letter aan die je om welke reden dan ook het MINST aanspreekt? Deze kleurt rood.<br/>
                                           Werk snel. We bespreken dit verder tijdens de training.</p>
+          {message === '' ? null : <h2 className="text-3xl text-center text-red-600 py-6">{message}</h2>}
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">
               {pair.map((letter, buttonIndex) => (

@@ -2,7 +2,8 @@ const express = require('express');
 const adminRouter = express.Router();
 const xlsx = require('xlsx');
 const path = require('path');
-const jStat = require('jstat')
+const jStat = require('jstat');
+const ttest = require('@stdlib/stats-ttest');
 
 
 const read_excel_file = async () => {
@@ -192,21 +193,27 @@ adminRouter.get('/statistics/:groep', async (req, res) => {
         const totRow = excel.find(row => row.Groep === 'Totaal')
 
         const population_vreemde_letters = Array(totRow.Aantal_vreemde_letters_verworpen).fill(totRow.Aantal_vreemde_letters_verworpen);
-        const sample_vreemde_letters = Array(activeRow.Aantal_vreemde_letters_verworpen).fill(activeRow.Aantal_vreemde_letters_verworpen);
+        const sample_eigen_letters = Array(10) 
+        sample_eigen_letters.fill(activeRow.Aantal_eigen_letters_verworpen);
 
-        const vreemde_letters_ttest = jStat.ttest(
-            jStat.mean(sample_vreemde_letters),
-            jStat.mean(population_vreemde_letters),
-            activeRow.Aantal_letterparen_naam,
-            2
-        );
+        const sample_vreemde_letters = Array(10)
+        sample_vreemde_letters.fill(activeRow.Aantal_vreemde_letters_verworpen);
+
+        console.log(sample_eigen_letters)
+        console.log(sample_vreemde_letters)
+
+        const vreemde_letters_ttest = ttest(
+            sample_eigen_letters, sample_vreemde_letters
+        ).pValue;
 
         if (vreemde_letters_ttest <= 0.01) {
             activeRow.Significantie = 0.01;
         } else if (vreemde_letters_ttest <= 0.05) {
             activeRow.Significantie = 0.05;
-        } else {
+        } else if (vreemde_letters_ttest <= 0.1) {
             activeRow.Significantie = 0.1;
+        } else {
+            activeRow.Significantie = 'NS'
         }
         console.log('T-test for Aantal_vreemde_letters_verworpen:', vreemde_letters_ttest);
 

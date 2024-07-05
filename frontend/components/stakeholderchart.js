@@ -79,6 +79,14 @@ const StakeholderPieChart = () => {
 
     const options = {
         responsive: true,
+        layout: {
+            padding: {
+                top: 50,
+                bottom: 50,
+                left: 50,
+                right: 50
+            }
+        },
         plugins: {
             tooltip: {
                 callbacks: {
@@ -99,17 +107,20 @@ const StakeholderPieChart = () => {
                 formatter: (value, context) => {
                     return context.chart.data.labels[context.dataIndex];
                 },
-                color: '#fff',
+                color: '#000',
                 font: {
                     weight: 'bold',
-                    size: 16
-                }
+                    size: 20
+                },
+                // anchor: 'end',  // Position the label outside the arc
+                align: 'end',   // Align the label away from the center
+                offset: 80      // Move the label further outward
             }
         }
     };
 
     return (
-        <div className="pie-chart-container">
+        <div className="pie-chart-container m-16">
             <Pie data={data} options={options} />
         </div>
     );

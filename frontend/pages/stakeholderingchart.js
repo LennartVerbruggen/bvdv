@@ -48,7 +48,7 @@ const ChartPage = () => {
                     </div>
                 </div>
                 <h2 className="text-2xl text-center pt-6">{english ? "Focus points stakeholdering" : "Aandachtspunten Stakeholdering"}</h2>
-                <p className="text-center pt-2 pb-6">Door met je cursor door elk van de segmenten te gaan, vind je de betekenis ervan. Doorloop elk van de twaalf segmenten en kies er twee uit waarop je tijdens de training het liefst zou focussen voor jezelf. Schrijf die ergens op. Stel dezelfde vraag aan één of twee personen die jou goed kennen. Zij hebben toegang tot hetzelfde diagram.</p>
+                <p className="text-center pt-2 pb-6">Door met je cursor door elk van de segmenten te gaan, vind je de betekenis ervan. Doorloop elk van de twaalf segmenten en kies er twee uit waarop je tijdens de training het liefst zou focussen voor jezelf. Schrijf die ergens op. Stel dezelfde vraag aan één of twee personen die jou goed kennen. Door hen de link van deze pagina te sturen (https://bvdv.vercel.app/stakeholderingchart) hebben zij toegang tot hetzelfde diagram.</p>
                 <StakeholderChart />
             </div>
         </div>
