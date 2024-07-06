@@ -34,7 +34,7 @@ const ChartPage = () => {
                     <img
                         src="/en.png"
                         alt="Flag of England"
-                        className="h-4 md:h-5 cursor-pointer"
+                        className={`${english ? "opacity-50" : ""} h-4 md:h-5 cursor-pointer hover:opacity-50 hover:duration-500`}
                         onClick={() => handleFlagClick(true)}
                     />
 
@@ -42,7 +42,7 @@ const ChartPage = () => {
                     <img
                         src="/nl.png"
                         alt="Flag of Netherlands"
-                        className="h-4 md:h-5 cursor-pointer"
+                        className={`${english ? "" : "opacity-50"} h-4 md:h-5 cursor-pointer hover:opacity-50 hover:duration-500`}
                         onClick={() => handleFlagClick(false)}
                     />
                     </div>
