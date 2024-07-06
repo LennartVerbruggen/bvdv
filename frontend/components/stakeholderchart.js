@@ -112,9 +112,9 @@ const StakeholderPieChart = () => {
                     weight: 'bold',
                     size: 20
                 },
-                // anchor: 'end',  // Position the label outside the arc
-                align: 'end',   // Align the label away from the center
-                offset: 80      // Move the label further outward
+                anchor: 'end',  // Position the label outside the arc
+                align: 'start',   // Align the label away from the center
+                offset: 15      // Move the label further outward
             }
         }
     };
