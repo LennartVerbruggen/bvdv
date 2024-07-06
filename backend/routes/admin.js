@@ -192,30 +192,37 @@ adminRouter.get('/statistics/:groep', async (req, res) => {
         const activeRow = excel.find(row => row.Groep === groep);
         const totRow = excel.find(row => row.Groep === 'Totaal')
 
-        const population_vreemde_letters = Array(totRow.Aantal_vreemde_letters_verworpen).fill(totRow.Aantal_vreemde_letters_verworpen);
-        const sample_eigen_letters = Array(10) 
-        sample_eigen_letters.fill(activeRow.Aantal_eigen_letters_verworpen);
+        let population_vreemde_letters = totRow.Aantal_vreemde_letters_verworpen;
+        let populatie_eigen_letters = totRow.Aantal_eigen_letters_verworpen
 
-        const sample_vreemde_letters = Array(10)
-        sample_vreemde_letters.fill(activeRow.Aantal_vreemde_letters_verworpen);
+        let sample_eigen_letters = activeRow.Aantal_eigen_letters_verworpen;
+        let sample_vreemde_letters = activeRow.Aantal_vreemde_letters_verworpen;
 
-        console.log(sample_eigen_letters)
-        console.log(sample_vreemde_letters)
+        const sample_ttest = sample_vreemde_letters / sample_eigen_letters
 
-        const vreemde_letters_ttest = ttest(
-            sample_eigen_letters, sample_vreemde_letters
-        ).pValue;
+        const populatie_ttest = population_vreemde_letters / populatie_eigen_letters
 
-        if (vreemde_letters_ttest <= 0.01) {
-            activeRow.Significantie = 0.01;
-        } else if (vreemde_letters_ttest <= 0.05) {
-            activeRow.Significantie = 0.05;
-        } else if (vreemde_letters_ttest <= 0.1) {
-            activeRow.Significantie = 0.1;
-        } else {
+        if (sample_ttest <= 1.1) {
             activeRow.Significantie = 'NS'
+        } else if (sample_ttest <= 1.25) {
+            activeRow.Significantie = 0.1;
+        } else if (sample_ttest <= 1.4) {
+            activeRow.Significantie = 0.05;
+        } else {
+            activeRow.Significantie = 0.01;
         }
-        console.log('T-test for Aantal_vreemde_letters_verworpen:', vreemde_letters_ttest);
+        console.log('T-test for sample:', sample_ttest);
+
+        if (populatie_ttest < 1.1) {
+            totRow.Significantie = 'NS'
+        } else if (populatie_ttest < 1.25) {
+            totRow.Significantie = 0.1;
+        } else if (populatie_ttest < 1.4) {
+            totRow.Significantie = 0.05;
+        } else {
+            totRow.Significantie = 0.01;
+        }
+        console.log('T-test for population:', populatie_ttest);
 
         if (activeRow) {
             res.status(200).json({ groep: activeRow, totaal: totRow});

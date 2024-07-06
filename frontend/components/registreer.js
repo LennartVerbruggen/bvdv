@@ -68,12 +68,11 @@ const Registreer = ({ onTestSubmit }) => {
   const sendLetters = async () => {
     // If one of the elements in results is null, stop the method and set a message
     if (results.includes(null)) {
-      setMessage('Selecteer voor elk paar één letter voor het indienen');
+      setMessage('Selecteer voor elk paar één letter alvorens in te dienen.');
       return;
     } 
     if (!completed) {
       const response = await UserService.sendTest(results, nameLetters, selectedGroup)
-      console.log('fail')
       response.json().then((message) => {
         setMessage(message.message)
       })
