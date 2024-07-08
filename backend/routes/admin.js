@@ -202,25 +202,25 @@ adminRouter.get('/statistics/:groep', async (req, res) => {
 
         const populatie_ttest = population_vreemde_letters / populatie_eigen_letters
 
-        if (sample_ttest <= 1.1) {
+        if (sample_ttest <= 1.05) {
             activeRow.Significantie = 'NS'
         } else if (sample_ttest <= 1.25) {
-            activeRow.Significantie = 0.1;
+            activeRow.Significantie = 'p <= alpha (0.1)';
         } else if (sample_ttest <= 1.4) {
-            activeRow.Significantie = 0.05;
+            activeRow.Significantie = 'p <= alpha (0.05)';
         } else {
-            activeRow.Significantie = 0.01;
+            activeRow.Significantie = 'p <= alpha (0.01)';
         }
         console.log('T-test for sample:', sample_ttest);
 
-        if (populatie_ttest < 1.1) {
+        if (populatie_ttest < 1.05) {
             totRow.Significantie = 'NS'
         } else if (populatie_ttest < 1.25) {
-            totRow.Significantie = 0.1;
+            totRow.Significantie = 'p <= alpha (0.1)';
         } else if (populatie_ttest < 1.4) {
-            totRow.Significantie = 0.05;
+            totRow.Significantie = 'p <= alpha (0.05)';
         } else {
-            totRow.Significantie = 0.01;
+            totRow.Significantie = 'p <= alpha (0.01)';
         }
         console.log('T-test for population:', populatie_ttest);
 
