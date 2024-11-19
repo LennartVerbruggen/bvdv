@@ -17,6 +17,7 @@ const Register = ({ onTestSubmit }) => {
   const [results, setResults] = useState(Array(10).fill(null));
   const [nameLetters, setNameLetters] = useState([])
   const [message, setMessage] = useState('')
+  const [completionMessage, setCompletionMessage] = useState('')
   const [completed, setCompleted] = useState(false)
 
   const [selectedGroup, setSelectedGroep] = useState('')
@@ -76,9 +77,9 @@ const Register = ({ onTestSubmit }) => {
     if (!completed) {
       const response = await UserService.sendTest(results, nameLetters, selectedGroup)
       response.json().then((message) => {
-        setMessage(message.message)
+        console.log(message.message)
       })
-      onTestSubmit();
+      handleTestSubmit()
       setCompleted(true)
     }
   };
@@ -92,6 +93,17 @@ const Register = ({ onTestSubmit }) => {
   useEffect(() => {
     fetchGroups()
   }, []);
+
+
+  const handleTestSubmit = () => {
+    
+    setCompletionMessage('Test completed. The data will only be used during the training. Shortly, you will be redirected to the homepage.')
+
+    // Clear the message after 3 seconds
+    setTimeout(() => {
+        setCompletionMessage('');
+    }, 8000);
+  };
 
 
   return (
@@ -160,6 +172,7 @@ const Register = ({ onTestSubmit }) => {
           
           <p className='pb-8 text-center'>Below you find a sequence of two letters.<br/> For each pair, click on the letter that, for whatever reason, you like the LEAST. Be quick.<br/> We will discuss the results during the training.</p>
           {message === '' ? null : <h2 className="text-3xl text-center text-red-600 py-6">{message}</h2>}
+          {completionMessage === '' ? null : <h2 className="text-xl text-center text-green-600 py-4">{completionMessage}</h2>}
           {pairs.map((pair, rowIndex) => (
             <div key={rowIndex} className="flex justify-center space-x-4 pb-3">
               {pair.map((letter, buttonIndex) => (

@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const Home = () => {
 
-  const [english, setEnglish] = useState(false);
+  const [english, setEnglish] = useState(true);
   const [test, setTest] = useState(false);
   const [chart, setChart] = useState(false)
   const [message, setMessage] = useState('')
@@ -30,7 +30,7 @@ const Home = () => {
   const handleTestSubmit = () => {
     setTest(false);
     if (english) {
-      setMessage('Test completed. The data will only be used during the training. Shortly, you will be redirected to the homepage.')
+      setMessage('The test has been completed. Thank you. You can close this screen.')
     } else {
       setMessage('Test voltooid. De gegevens zullen enkel gebruikt worden tijdens de training. Zo meteen kom je terug op het startscherm.')
     }
@@ -55,30 +55,42 @@ const Home = () => {
               <img src="/bvdv-logo.png" alt="Logo" className="h-10 md:h-20 cursor-pointer" />
             </a>
 
+            {/* Disable dutch versio */}
+
             {/* Flags */}
-            <div className="flex-col space-y-2">
+            {/* <div className="flex-col space-y-2"> */}
               {/* Flag of England */}
-              <img
+              {/* <img
                 src="/en.png"
                 alt="Flag of England"
                 className={`${english ? "opacity-50" : ""} h-4 md:h-5 cursor-pointer hover:opacity-50 hover:duration-500`}
                 onClick={() => handleFlagClick(true)}
-              />
+              /> */}
 
               {/* Flag of Netherlands */}
-              <img
+              {/* <img
                 src="/nl.png"
                 alt="Flag of Netherlands"
                 className={`${english ? "" : "opacity-50"} h-4 md:h-5 cursor-pointer hover:opacity-50 hover:duration-500`}
                 onClick={() => handleFlagClick(false)}
               />
-            </div>
+            </div> */}
+
           </div>
-          {english ? (<p className="pt-5 text-center">Welcome. In preparation for the training, you can complete the letter experiment below.<br/> Together with the registration, this will take approximately 1 minute.<br/> You will also find a button here to get an overview of the focus points.</p>
-          ) : (<p className="pt-5 text-center">Welkom. Als voorbereiding op de training vind je hierna twee sets van informatie:<br/> Eén rond lettercombinaties en één rond aandachtspunten.<br/> Je wordt vriendelijk verzocht om elk van beiden te doorlopen.</p>)}
+          {english ? (
+            <>
+              <p className="pt-5 text-center text-2xl font-semibold">Welcome</p>
+              <p className="pt-5 text-center"> In preparation for the next session, please complete the task below.<br/> Together with the registration, this will take no more then 2 minute.</p>
+            </>
+            ) : (<p className="pt-5 text-center">Welkom. Als voorbereiding op de training vind je hierna twee sets van informatie:<br/> Eén rond lettercombinaties en één rond aandachtspunten.<br/> Je wordt vriendelijk verzocht om elk van beiden te doorlopen.</p>)}
           
           <div className="flex flex-col sm:flex-row justify-center pt-5 gap-5 mb-6">
-            <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 transition-all duration-300 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleTestButtonClick()}>{english ? "Letter combinations": "Lettercombinaties"}</button>
+            <Link href="/lettertest" legacyBehavior>
+              <a target="_blank">
+                <button className={`${test ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 transition-all duration-300 text-white font-bold rounded py-2 px-4 mx-4`} onClick={() => handleTestButtonClick()}>{english ? "Letter pairs": "Lettercombinaties"}</button>
+              </a>
+            </Link>
+            
             <Link href="/stakeholderingchart" legacyBehavior>
                 <a target="_blank">
                   <button className={`${chart ? "bg-blue-700" : "bg-blue-500"} hover:bg-blue-900 transition-all duration-300 text-white font-bold rounded py-2 px-4 mx-4`}>{english ? "Focus points stakeholdering" : "Aandachtspunten Stakeholdering"}</button>
