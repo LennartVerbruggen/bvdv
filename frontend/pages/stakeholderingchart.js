@@ -50,7 +50,7 @@ const ChartPage = () => {
                     </div> */}
                 </div>
                 <h2 className="text-2xl text-center pt-6">{english ? "Focus points stakeholdering" : "Aandachtspunten Stakeholdering"}</h2>
-                <p className="text-center pt-2 pb-6">Door met je cursor door elk van de segmenten te gaan, vind je de betekenis ervan. Doorloop elk van de twaalf segmenten en kies er twee uit waarop je tijdens de training het liefst zou focussen voor jezelf. Schrijf die ergens op. Stel dezelfde vraag aan één of twee personen die jou goed kennen. Door hen de link van deze pagina te sturen (https://bvdv.vercel.app/stakeholderingchart) hebben zij toegang tot hetzelfde diagram.</p>
+                <p className="text-center pt-2 pb-6">{english ? "By hovering your cursor over each of the segments, you will find its meaning. Go through each of the twelve segments and choose two that you would like to focus on during the training for yourself. Write those down somewhere. Ask the same question to one or two people who know you well. By sending them the link to this page (https://bvdv.vercel.app/stakeholderingchart), they will have access to the same diagram." : "Door met je cursor door elk van de segmenten te gaan, vind je de betekenis ervan. Doorloop elk van de twaalf segmenten en kies er twee uit waarop je tijdens de training het liefst zou focussen voor jezelf. Schrijf die ergens op. Stel dezelfde vraag aan één of twee personen die jou goed kennen. Door hen de link van deze pagina te sturen (https://bvdv.vercel.app/stakeholderingchart) hebben zij toegang tot hetzelfde diagram." }</p>
                 <StakeholderChart />
             </div>
         </div>
