@@ -111,7 +111,7 @@ const Register = ({ onTestSubmit }) => {
       {!registered ? (
         <>
         <p className="pt-5 text-center text-2xl font-semibold">Welcome</p>
-        <p className="pt-5 text-center"> In preparation for the next session, please complete the task below.<br/> Together with the registration, this will take no more than 2 minute.</p>
+        <p className="pt-5 text-center"> In preparation for the next session, please complete the task below.<br/> Together with the registration, this will take no more than 2 minutes.</p>
         <form onSubmit={handleSubmit} className="space-y-4">
         <div>
             <label htmlFor="group-select" className="block text-sm font-medium text-gray-700">Select a group:</label>
@@ -165,7 +165,7 @@ const Register = ({ onTestSubmit }) => {
           Start
         </button>
       </form>
-      <p className="text-gray-400 pt-3 text-center">Your data is not being saved. This form is for demonstration purposes only.</p>
+      <p className="text-gray-400 pt-3 text-center">Your data are not being saved. This form is for demonstration purposes only.</p>
       </>
   
       ) : (
