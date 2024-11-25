@@ -171,7 +171,7 @@ const Register = ({ onTestSubmit }) => {
       ) : (
         
         <>
-          <h1 className="text-2xl font-bold text-center pb-4">Letter pairs: select the bad letters</h1>
+          <h1 className="text-2xl font-bold text-center pb-4">Letter pairs: select the "bad" letters</h1>
           
           <p className='pb-8 text-center'>Below you find a sequence of two letters.<br/> For each pair, click on the letter that, for whatever reason, you like the LEAST. Be quick.<br/> We will discuss the results during the training.</p>
           {message === '' ? null : <h2 className="text-3xl text-center text-red-600 py-6">{message}</h2>}
