@@ -88,10 +88,12 @@ const Register = ({ onTestSubmit }) => {
     const response = await UserService.getAllGroups()
     const data = await response.json()
     console.log(data)
-    // Remove the first element of the list - total group
-    data.shift()
+    // Remove the the element called 'totaal' or 'Totaal'
+    const filteredData = data.filter(
+      (groep) => groep.toLowerCase() !== "totaal"
+    );
 
-    setGroups(data)
+    setGroups(filteredData)
   }
 
   useEffect(() => {
