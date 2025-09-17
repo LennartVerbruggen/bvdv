@@ -17,15 +17,23 @@ const Admin = () => {
     };
 
     const handleDeleteClick = async (groep) => {
+        console.log(groep)
+
+        const confirmDelete = window.confirm(`Ben je zeker dat je groep '${groep}' wilt verwijderen?`);
+        if (!confirmDelete) return;
+    
         console.log('Delete groep:', groep);
-        // You can also add logic to delete the group if needed
-
-        const response = await AdminService.deleteGroep(groep)
-        const data = await response.json();
-        setMessage(data)
-
-        fetchGroepen();
+    
+        try {
+            const response = await AdminService.deleteGroep(groep);
+            const data = await response.json();
+            setMessage(data);
+            fetchGroepen();
+        } catch (error) {
+            console.error("Fout bij verwijderen:", error);
+        }
     };
+    
 
     const handleSelectChange = (e) => {
         setSelectedGroep(e.target.value);
